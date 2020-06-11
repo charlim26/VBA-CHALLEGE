@@ -1,0 +1,69 @@
+Sub TickerChallenge()
+
+Dim i As Integer
+Dim ws As Worksheet
+Set ws = ActiveSheet
+Dim GI As Double
+Dim GD As Double
+Dim GV As Double
+Dim maximum As Double
+Dim minimum As Double
+Dim Ticker As String
+Dim rng As Range
+
+Dim Summary_Table_Row As Integer
+Summary_Table_Row = 2
+lastrow = Cells(Rows.Count, 1).End(xlUp).Row
+
+'Loop
+For i = 2 To lastrow
+
+'Set range for value
+Set ws = ActiveSheet
+Set rng = Range("L" & lastrow)
+'Unique Tickers
+If Cells(i + 1, 16).Value = Cells(i, 16).Value Then
+Ticker = Cells(i, 10).Value
+
+'Max Function
+maximum = Application.WorksheetFunction.Max(rng)
+If Cells(i + 1, 12).Value = Cells(i, 12).Value Then
+GI = Cells(i, 12).Value
+
+'Min function
+minimum = Application.WorksheetFunction.Min(rng)
+If Cells(i + 1, 12).Value = Cells(i, 12).Value Then
+GD = Cells(i, 12).Value
+
+'Min function
+maximum = Application.WorksheetFunction.Max(rng)
+If Cells(i + 1, 13).Value = Cells(i, 13).Value Then
+GV = Cells(i, 13).Value
+
+
+'Add Headers
+Range("p1").Value = "Ticker"
+Range("q1").Value = "Value"
+Range("o2").Value = "Greatest % Increase"
+Range("o3").Value = "Greatest % Decrease"
+Range("o4").Value = "Greatest Total Volume"
+
+'Summary of Ticker Names
+Range("P" & Summary_Table_Row).Value = Ticker
+
+
+'Sum of Stock Volume by Ticker
+Range("Q" & Summary_Table_Row).Value = GV
+Summary_Table_Row = Summary_Table_Row
+GV = 0
+
+
+Else
+'Volume Totals
+GV = GV + Cells(i, 13).Value
+End If
+End If
+End If
+End If
+Next i
+End Sub
